@@ -21,8 +21,7 @@ patient_data = pipeline.process_prescription(
     "NLPformed/tests/sample_prescription.jpg"
 )
 
-# ---------- FIX MISSING VALUES ----------
-# XGBoost cannot handle None values
+# Fix missing values
 defaults = {
     "glucose_level": 100.0,
     "cholesterol_level": 180.0,
@@ -45,24 +44,33 @@ if "src" in sys.modules:
 
 sys.path.remove(nlp_project)
 
-
-# ---------- STEP 2: LOAD VIRTUAL PATIENT ----------
+# ---------- LOAD VIRTUAL PATIENT ----------
 sys.path.insert(0, vp_project)
 
 from src.virtual_patient.virtual_patient import VirtualPatient
 
-print("\nSTEP 2 — Running Virtual Patient Simulation...\n")
+print("\nSTEP 2 — Enter Current Lifestyle Details\n")
 
-patient = VirtualPatient(patient_data)
+# ---------- USER INPUT ----------
+exercise = int(input("Exercise minutes per day: "))
+diet = input("Diet type (balanced / high_fat): ")
+smoking = input("Smoking? (yes/no): ").lower() == "yes"
+alcohol = int(input("Alcohol units per week: "))
+sleep = int(input("Sleep hours per night: "))
+stress = input("Stress level (low / medium / high): ")
 
 lifestyle = {
-    "exercise_minutes_per_day": 45,
-    "diet_type": "balanced",
-    "smoking_status": False,
-    "alcohol_units_per_week": 0,
-    "sleep_hours_per_night": 8,
-    "stress_level": "low"
+    "exercise_minutes_per_day": exercise,
+    "diet_type": diet,
+    "smoking_status": smoking,
+    "alcohol_units_per_week": alcohol,
+    "sleep_hours_per_night": sleep,
+    "stress_level": stress
 }
+
+print("\nSTEP 3 — Running Virtual Patient Simulation...\n")
+
+patient = VirtualPatient(patient_data)
 
 result = patient.simulate(lifestyle=lifestyle, months=6)
 
