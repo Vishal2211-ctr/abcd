@@ -1,0 +1,26 @@
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test Outputs
+result.json
+tests/sample_prescription.jpg
+debug_out.txt
+test_output.txt
+
+# EasyOCR Cache (if downloaded locally)
+.EasyOCR/
